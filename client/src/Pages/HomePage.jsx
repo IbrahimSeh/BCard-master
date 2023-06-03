@@ -143,7 +143,9 @@ const HomePage = () => {
               onEdit={handleEditFromInitialCardsArr}
               canEdit={item.user_id === userID && payload && payload.biz}
               onLike={handleLikesFromInitialCardsArr}
-              disLike={item.likes.includes(payload._id) ? false : true}
+              disLike={
+                item.likes.includes(payload && payload._id) ? false : true
+              }
             />
           </Grid>
         ))}

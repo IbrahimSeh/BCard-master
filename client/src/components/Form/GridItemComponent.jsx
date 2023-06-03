@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Fragment, useState } from "react";
 
 const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
+  console.log("GridItemComponent");
   const [inputState, setInputState] = useState({
     firstName: "",
     middleName: "",
@@ -41,7 +42,7 @@ const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
       case "password":
         return "password";
       default:
-        return "";
+        return;
     }
   };
 
@@ -73,6 +74,15 @@ const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
         return true;
     }
   };
+
+  // const getValue = () => {
+  //   if (inputState[inputKey] == "") {
+  //     return inputValue + inputState[inputKey];
+  //   } else {
+  //     return inputState[inputKey];
+  //   }
+  // };
+
   return (
     <Fragment>
       <TextField
@@ -80,10 +90,11 @@ const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
         name={inputKey}
         required={checkIfRequired(inputKey)}
         fullWidth
+        autoFocus={inputKey == "firstName" ? true : false}
+        helperText=""
         type={getType(inputKey)}
         id={inputKey}
         label={inputKey}
-        autoFocus
         value={
           inputState[inputKey] == ""
             ? inputValue + inputState[inputKey]
@@ -101,4 +112,5 @@ GridItemComponent.propTypes = {
 };
 
 export default GridItemComponent;
+//export default memo(GridItemComponent, (prevProps, nextProps) => true);
 //export default memo(GridItemComponent, (a, b) => true);

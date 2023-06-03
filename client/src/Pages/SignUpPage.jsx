@@ -35,13 +35,13 @@ const SignUpPage = () => {
     houseNumber: "",
     zipCode: "",
   });
-  let checkBoxState = false;
 
   const [checked, setChecked] = useState(false);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const [btnDisable, setbtnDisable] = useState(true);
   const navigate = useNavigate();
   let joiResponse;
+  let checkBoxState;
 
   const handleBtnSubmitClick = async (ev) => {
     setChecked(checkBoxState);
@@ -94,6 +94,7 @@ const SignUpPage = () => {
   };
   const updatecheckBoxState = (value) => {
     checkBoxState = value;
+    //setChecked(value);
   };
 
   return (
@@ -116,7 +117,7 @@ const SignUpPage = () => {
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             {Object.entries(inputstate).map(([key, value]) => (
-              <Grid item xs={12} sm={6} key={Math.random() + Date.now()}>
+              <Grid item xs={12} sm={6} key={key + Date.now()}>
                 <GridItemComponent
                   inputKey={key}
                   inputValue={value}
@@ -137,6 +138,7 @@ const SignUpPage = () => {
             ))}
 
             <CheckboxComponent
+              isChecked={checked}
               passCheckBoxFromChildToParent={updatecheckBoxState}
             />
             <CRComponent

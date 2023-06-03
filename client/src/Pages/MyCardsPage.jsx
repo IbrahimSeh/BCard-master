@@ -1,10 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  Grid,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -148,7 +142,9 @@ const MyCardsPage = () => {
               onEdit={handleEditFromInitialCardsArr}
               canEdit={payload && payload.biz}
               onLike={handleLikesFromInitialCardsArr}
-              disLike={item.likes.includes(payload._id) ? false : true}
+              disLike={
+                item.likes.includes(payload && payload._id) ? false : true
+              }
             />
           </Grid>
         ))}
