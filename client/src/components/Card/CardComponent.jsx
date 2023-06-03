@@ -27,7 +27,7 @@ const CardComponent = ({
   address,
   id,
   clickOnCard,
-  userId,
+  bizNumber,
   onDelete,
   candelete,
   onEdit,
@@ -84,7 +84,7 @@ const CardComponent = ({
           <Box fontWeight="fontWeightMedium" display="inline">
             Card Number :
           </Box>{" "}
-          {id}
+          {bizNumber}
         </Typography>
       </CardContent>
       <CardActions>

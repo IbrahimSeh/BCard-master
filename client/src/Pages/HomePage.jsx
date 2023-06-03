@@ -77,7 +77,7 @@ const HomePage = () => {
 
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {
-      await axios.delete("/cards/" + id); // /cards/:id
+      await axios.delete("/cards/" + id);
       setCardsArr((newCardsArr) =>
         newCardsArr.filter((item) => item._id != id)
       );
@@ -130,8 +130,9 @@ const HomePage = () => {
                 ", " +
                 item.houseNumber
               }
-              id={item.bizNumber}
+              id={item._id}
               clickOnCard={handleOnClick}
+              bizNumber={item.bizNumber}
               userId={item.user_id}
               onDelete={handleDeleteFromInitialCardsArr}
               candelete={
