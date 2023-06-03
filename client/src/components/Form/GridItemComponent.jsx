@@ -1,8 +1,9 @@
-import { TextField } from "@mui/material";
+import { Alert, TextField } from "@mui/material";
 import PropTypes from "prop-types";
 import { Fragment, useState } from "react";
+import validateRegisterSchema from "../../validation/signupValidation";
 
-const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
+const GridItemComponent = ({ inputKey, inputValue, onChange, onBlur }) => {
   console.log("GridItemComponent");
   const [inputState, setInputState] = useState({
     firstName: "",
@@ -27,12 +28,23 @@ const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
     url: "",
     alt: "",
   });
-
+  const [inputsErrorsState, setInputsErrorsState] = useState(null);
+  let joiResponse;
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
     onChange(ev.target.id, ev.target.value);
+  };
+
+  const handelBlurChange = () => {
+    joiResponse = validateRegisterSchema(inputState);
+    setInputsErrorsState(joiResponse);
+
+    console.log("joiResponse = ", joiResponse);
+    if (!joiResponse) {
+      onBlur(false);
+    }
   };
 
   const getType = (inputKey) => {
@@ -77,7 +89,7 @@ const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
 
   // const getValue = () => {
   //   if (inputState[inputKey] == "") {
-  //     return inputValue + inputState[inputKey];
+  //     return inputValue;
   //   } else {
   //     return inputState[inputKey];
   //   }
@@ -95,13 +107,21 @@ const GridItemComponent = ({ inputKey, inputValue, onChange }) => {
         type={getType(inputKey)}
         id={inputKey}
         label={inputKey}
-        value={
-          inputState[inputKey] == ""
-            ? inputValue + inputState[inputKey]
-            : inputState[inputKey]
-        }
+        value={inputState[inputKey] == "" ? inputValue : inputState[inputKey]}
         onChange={handleInputChange}
+        onBlur={handelBlurChange}
       />
+      {inputsErrorsState && inputsErrorsState[inputKey] && (
+        <Alert severity="warning">
+          {inputsErrorsState[inputKey].map((item) => (
+            <div key={`${inputKey}-errors` + item}>
+              {item.includes("pattern:")
+                ? item.split("pattern:")[0] + "pattern"
+                : item}
+            </div>
+          ))}
+        </Alert>
+      )}
     </Fragment>
   );
 };
@@ -112,5 +132,3 @@ GridItemComponent.propTypes = {
 };
 
 export default GridItemComponent;
-//export default memo(GridItemComponent, (prevProps, nextProps) => true);
-//export default memo(GridItemComponent, (a, b) => true);

@@ -37,20 +37,20 @@ const SignUpPage = () => {
   });
 
   const [checked, setChecked] = useState(false);
-  const [inputsErrorsState, setInputsErrorsState] = useState(null);
+  // const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const [btnDisable, setbtnDisable] = useState(true);
   const navigate = useNavigate();
-  let joiResponse;
+  // let joiResponse;
   let checkBoxState;
 
   const handleBtnSubmitClick = async (ev) => {
     setChecked(checkBoxState);
     try {
-      setInputsErrorsState(joiResponse);
-      if (joiResponse) {
-        console.log("return from joiResponse");
-        return;
-      }
+      // setInputsErrorsState(joiResponse);
+      // if (joiResponse) {
+      //   console.log("return from joiResponse");
+      //   return;
+      // }
 
       await axios.post("/users/register", {
         firstName: inputstate.firstName,
@@ -87,14 +87,15 @@ const SignUpPage = () => {
 
   const updateState = (key, value) => {
     inputstate[key] = value;
-    joiResponse = validateRegisterSchema(inputstate);
-    if (!joiResponse) {
-      setbtnDisable(false);
-    }
   };
+
+  const onBlurHandel = (btnState) => {
+    console.log("onBlurHandel");
+    setbtnDisable(btnState);
+  };
+
   const updatecheckBoxState = (value) => {
     checkBoxState = value;
-    //setChecked(value);
   };
 
   return (
@@ -122,8 +123,9 @@ const SignUpPage = () => {
                   inputKey={key}
                   inputValue={value}
                   onChange={updateState}
+                  onBlur={onBlurHandel}
                 />
-                {inputsErrorsState && inputsErrorsState[key] && (
+                {/* {inputsErrorsState && inputsErrorsState[key] && (
                   <Alert severity="warning">
                     {inputsErrorsState[key].map((item) => (
                       <div key={`${key}-errors` + item}>
@@ -133,7 +135,7 @@ const SignUpPage = () => {
                       </div>
                     ))}
                   </Alert>
-                )}
+                )} */}
               </Grid>
             ))}
 

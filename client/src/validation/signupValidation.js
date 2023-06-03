@@ -3,9 +3,9 @@ import Joi from "joi";
 import validation from "./validation";
 
 const registerSchema = Joi.object({
-    firstName: Joi.string().pattern(new RegExp("^[A-Z][a-z0-9-\\s]{0,}$", "i")).min(2).max(256).required(),
-    middleName: Joi.string().pattern(new RegExp("^[A-Z][a-z0-9-\\s]{0,}$", "i")).min(2).max(256).allow(null, ''),
-    lastName: Joi.string().pattern(new RegExp("^[A-Z][a-z0-9-\\s]{0,}$", "i")).min(2).max(256).required(),
+    firstName: Joi.string().pattern(new RegExp("\\b([A-ZA-y][-,a-z. ']+[ ]*)+", "i")).min(2).max(256).required(),
+    middleName: Joi.string().pattern(new RegExp("\\b([A-ZA-y][-,a-z. ']+[ ]*)+", "i")).min(2).max(256).allow(null, ''),
+    lastName: Joi.string().pattern(new RegExp("\\b([A-ZA-y][-,a-z. ']+[ ]*)+", "i")).min(2).max(256).required(),
     phone: Joi.string()
         .pattern(new RegExp("^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$", "i"))
         .min(9).max(14).required(),
