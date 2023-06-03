@@ -137,8 +137,9 @@ const MyCardsPage = () => {
                 ", " +
                 item.houseNumber
               }
-              id={item.bizNumber}
+              id={item._id}
               clickOnCard={handleOnClick}
+              bizNumber={item.bizNumber}
               userId={item.user_id}
               onDelete={handleDeleteFromInitialCardsArr}
               candelete={payload && payload.biz}

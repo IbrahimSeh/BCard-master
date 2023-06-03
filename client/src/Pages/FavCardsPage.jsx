@@ -96,6 +96,7 @@ const FavCardsPage = () => {
   };
 
   const handleEditFromInitialCardsArr = (id) => {
+    console.log("id = ", id);
     navigate(`${ROUTES.CARDEDIT}/?cardId=${id}`);
   };
 
@@ -137,8 +138,9 @@ const FavCardsPage = () => {
                 ", " +
                 item.houseNumber
               }
-              id={item.bizNumber}
+              id={item._id}
               clickOnCard={handleOnClick}
+              bizNumber={item.bizNumber}
               userId={item.user_id}
               onDelete={handleDeleteFromInitialCardsArr}
               candelete={
