@@ -96,7 +96,6 @@ const FavCardsPage = () => {
   };
 
   const handleEditFromInitialCardsArr = (id) => {
-    console.log("id = ", id);
     navigate(`${ROUTES.CARDEDIT}/?cardId=${id}`);
   };
 

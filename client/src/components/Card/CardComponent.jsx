@@ -59,7 +59,7 @@ const CardComponent = ({
   };
 
   return (
-    <Card square raised onClick={handleClickCard}>
+    <Card square raised onClick={handleClickCard} sx={{ borderRadius: 2 }}>
       <CardActionArea>
         <CardMedia component="img" image={img} />
       </CardActionArea>

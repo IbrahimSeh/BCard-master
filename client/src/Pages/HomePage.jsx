@@ -93,6 +93,7 @@ const HomePage = () => {
   const handleLikesFromInitialCardsArr = async (id) => {
     try {
       await axios.patch("/cards/card-like/" + id); // /cards/:id
+      window.location.reload();
     } catch (err) {
       console.log("error when liking card", err.response.data);
     }
@@ -142,6 +143,7 @@ const HomePage = () => {
               onEdit={handleEditFromInitialCardsArr}
               canEdit={item.user_id === userID && payload && payload.biz}
               onLike={handleLikesFromInitialCardsArr}
+              disLike={item.likes.includes(payload._id) ? false : true}
             />
           </Grid>
         ))}
