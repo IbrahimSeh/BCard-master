@@ -1,24 +1,32 @@
-import { Box, List, ListItem, ListItemText, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const SandBoxPage = () => {
-  const [inputstate] = useState({});
+  const [inputstate, setinputstate] = useState(null);
   useEffect(() => {
     axios
       .get("/users/getAllUsers")
       .then(({ data }) => {
-        for (const key in JSON.parse(JSON.stringify(data))) {
-          inputstate[key] = data[key];
-        }
+        setinputstate(data);
       })
       .catch((err) => {
         console.log("err from axioas", err);
         toast.error("Oops");
       });
-  }, [inputstate]);
+  }, []);
 
+  if (!inputstate) {
+    return <CircularProgress />;
+  }
   return (
     <Box>
       <Typography variant="h5" color="initial">
