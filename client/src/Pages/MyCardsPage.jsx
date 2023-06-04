@@ -104,9 +104,28 @@ const MyCardsPage = () => {
 
   if (cardsArr.length === 0) {
     return (
-      <Typography m={3} variant="h3" color="blue">
-        sorry ! ,you'r Collection of bussiness cards is empty.
-      </Typography>
+      <Box className="myCardBox" mt={3}>
+        <Typography m={3} variant="h3" color="blue">
+          sorry ! ,you'r Collection of bussiness cards is empty.
+        </Typography>
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="flex-end"
+        >
+          <NavLink mt={3} to={ROUTES.CREATECARD}>
+            <AddCircleIcon
+              sx={{
+                color: "blue",
+                borderRadius: "50%",
+                "&:hover": { color: "#673ab7" },
+                fontSize: "80px",
+              }}
+            />
+          </NavLink>
+        </Grid>
+      </Box>
     );
   }
 
