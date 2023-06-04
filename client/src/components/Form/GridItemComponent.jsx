@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import { Fragment, useState } from "react";
 import validateRegisterSchema from "../../validation/signupValidation";
 
-const GridItemComponent = ({ inputKey, inputValue, onChange, onBlur }) => {
+const GridItemComponent = ({
+  inputKey,
+  inputValue,
+  onChange,
+  onBlur,
+  prevState,
+}) => {
   console.log("GridItemComponent");
   const [inputState, setInputState] = useState({
     firstName: "",
@@ -38,11 +44,11 @@ const GridItemComponent = ({ inputKey, inputValue, onChange, onBlur }) => {
   };
 
   const handelBlurChange = () => {
-    joiResponse = validateRegisterSchema(inputState);
+    joiResponse = validateRegisterSchema(prevState);
     setInputsErrorsState(joiResponse);
-
     console.log("joiResponse = ", joiResponse);
     if (!joiResponse) {
+      console.log("in if");
       onBlur(false);
     }
   };
@@ -86,14 +92,6 @@ const GridItemComponent = ({ inputKey, inputValue, onChange, onBlur }) => {
         return true;
     }
   };
-
-  // const getValue = () => {
-  //   if (inputState[inputKey] == "") {
-  //     return inputValue;
-  //   } else {
-  //     return inputState[inputKey];
-  //   }
-  // };
 
   return (
     <Fragment>

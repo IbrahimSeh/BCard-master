@@ -36,3 +36,7 @@ const CheckboxComponent = ({ isChecked, passCheckBoxFromChildToParent }) => {
   );
 };
 export default CheckboxComponent;
+
+CheckboxComponent.defaultProps = {
+  isChecked: false,
+};

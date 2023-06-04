@@ -6,11 +6,8 @@ import Box from "@mui/material/Box";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-import validateRegisterSchema from "../validation/signupValidation";
 import ROUTES from "../routes/ROUTES";
 import { toast } from "react-toastify";
 import GridItemComponent from "../components/Form/GridItemComponent";
@@ -36,22 +33,16 @@ const SignUpPage = () => {
     zipCode: "",
   });
 
-  const [checked, setChecked] = useState(false);
-  // const [inputsErrorsState, setInputsErrorsState] = useState(null);
+  // const [checked, setChecked] = useState(false);
   const [btnDisable, setbtnDisable] = useState(true);
   const navigate = useNavigate();
-  // let joiResponse;
   let checkBoxState;
 
   const handleBtnSubmitClick = async (ev) => {
-    setChecked(checkBoxState);
+    // console.log("in submit checkBoxState = ", checkBoxState);
+    // setChecked(checkBoxState);
+    // console.log("checked = ", checked);
     try {
-      // setInputsErrorsState(joiResponse);
-      // if (joiResponse) {
-      //   console.log("return from joiResponse");
-      //   return;
-      // }
-
       await axios.post("/users/register", {
         firstName: inputstate.firstName,
         middleName: inputstate.middleName,
@@ -66,8 +57,8 @@ const SignUpPage = () => {
         city: inputstate.city,
         street: inputstate.street,
         houseNumber: inputstate.houseNumber,
-        zipCode: inputstate.zipCode,
-        biz: checked,
+        zipCode: +inputstate.zipCode,
+        biz: checkBoxState,
       });
       toast.success("A new user has been created");
       navigate(ROUTES.LOGIN);
@@ -86,16 +77,18 @@ const SignUpPage = () => {
   };
 
   const updateState = (key, value) => {
+    console.log("updateState = ", inputstate);
     inputstate[key] = value;
   };
 
-  const onBlurHandel = (btnState) => {
+  const onBlurHandel = (submitLock) => {
     console.log("onBlurHandel");
-    setbtnDisable(btnState);
+    setbtnDisable(submitLock);
   };
 
   const updatecheckBoxState = (value) => {
     checkBoxState = value;
+    console.log("checkBoxState = ", checkBoxState);
   };
 
   return (
@@ -124,23 +117,12 @@ const SignUpPage = () => {
                   inputValue={value}
                   onChange={updateState}
                   onBlur={onBlurHandel}
+                  prevState={inputstate}
                 />
-                {/* {inputsErrorsState && inputsErrorsState[key] && (
-                  <Alert severity="warning">
-                    {inputsErrorsState[key].map((item) => (
-                      <div key={`${key}-errors` + item}>
-                        {item.includes("pattern:")
-                          ? item.split("pattern:")[0] + "pattern"
-                          : item}
-                      </div>
-                    ))}
-                  </Alert>
-                )} */}
               </Grid>
             ))}
 
             <CheckboxComponent
-              isChecked={checked}
               passCheckBoxFromChildToParent={updatecheckBoxState}
             />
             <CRComponent

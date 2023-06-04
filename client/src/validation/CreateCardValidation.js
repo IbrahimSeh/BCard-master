@@ -21,7 +21,7 @@ const createCardSchema = Joi.object({
     city: Joi.string().min(2).max(256).required(),
     street: Joi.string().min(2).max(256).required(),
     houseNumber: Joi.string().pattern(new RegExp("^[1-9]\\d*(?:[ -]?(?:[a-zA-Z]+|[1-9]\\d*))?$")).min(1).max(256).required(),
-    zipCode: Joi.string().min(1).max(99999999).allow(null, ''),
+    zipCode: Joi.number().min(1).max(99999999).allow(null, ''),
     web: Joi.string().min(5).max(255).allow(null, ''),
 
 });
