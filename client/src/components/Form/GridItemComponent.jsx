@@ -2,6 +2,7 @@ import { Alert, TextField } from "@mui/material";
 import PropTypes from "prop-types";
 import { Fragment, useState } from "react";
 import validateRegisterSchema from "../../validation/signupValidation";
+import validateCardSchema from "../../validation/CreateCardValidation";
 
 const GridItemComponent = ({
   inputKey,
@@ -9,6 +10,7 @@ const GridItemComponent = ({
   onChange,
   onBlur,
   prevState,
+  schema,
 }) => {
   console.log("GridItemComponent");
   const [inputState, setInputState] = useState({
@@ -44,12 +46,34 @@ const GridItemComponent = ({
   };
 
   const handelBlurChange = () => {
-    joiResponse = validateRegisterSchema(prevState);
+    if (schema === "card") {
+      joiResponse = validateCardSchema(prevState);
+    } else {
+      if (schema === "user") {
+        joiResponse = validateRegisterSchema(prevState);
+        if (joiResponse !== null && joiResponse.hasOwnProperty("password")) {
+          delete joiResponse.password;
+          if (Object.keys(joiResponse).length === 0) {
+            joiResponse = null;
+          }
+        }
+      } else {
+        joiResponse = validateRegisterSchema(prevState);
+      }
+    }
     setInputsErrorsState(joiResponse);
     console.log("joiResponse = ", joiResponse);
     if (!joiResponse) {
       console.log("in if");
-      onBlur(false);
+      if (schema === "user") {
+        onBlur(false);
+      } else {
+        onBlur(false);
+      }
+    } else {
+      if (schema === "user" || schema === "card") {
+        onBlur(true);
+      }
     }
   };
 
@@ -100,7 +124,7 @@ const GridItemComponent = ({
         name={inputKey}
         required={checkIfRequired(inputKey)}
         fullWidth
-        autoFocus={inputKey == "firstName" ? true : false}
+        autoFocus={inputKey === "firstName" ? true : false}
         helperText=""
         type={getType(inputKey)}
         id={inputKey}

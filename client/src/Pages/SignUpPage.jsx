@@ -33,15 +33,11 @@ const SignUpPage = () => {
     zipCode: "",
   });
 
-  // const [checked, setChecked] = useState(false);
   const [btnDisable, setbtnDisable] = useState(true);
   const navigate = useNavigate();
   let checkBoxState;
 
   const handleBtnSubmitClick = async (ev) => {
-    // console.log("in submit checkBoxState = ", checkBoxState);
-    // setChecked(checkBoxState);
-    // console.log("checked = ", checked);
     try {
       await axios.post("/users/register", {
         firstName: inputstate.firstName,
@@ -118,6 +114,7 @@ const SignUpPage = () => {
                   onChange={updateState}
                   onBlur={onBlurHandel}
                   prevState={inputstate}
+                  schema={""}
                 />
               </Grid>
             ))}

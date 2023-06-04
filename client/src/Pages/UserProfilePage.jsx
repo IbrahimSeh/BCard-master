@@ -5,11 +5,8 @@ import Box from "@mui/material/Box";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-import validateRegisterSchema from "../validation/signupValidation";
 import ROUTES from "../routes/ROUTES";
 import { toast } from "react-toastify";
 import GridItemComponent from "../components/Form/GridItemComponent";
@@ -39,7 +36,6 @@ const UserProfilePage = () => {
   const [value, setValue] = useState(0);
   const [checked, setChecked] = useState(false);
   const [flagIfCheckBoxUpdated, setFlagIfCheckBoxUpdated] = useState(false);
-  const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const [btnDisable, setbtnDisable] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -68,15 +64,8 @@ const UserProfilePage = () => {
       });
   }, [inputstate]);
 
-  let joiResponse;
   const handleBtnSubmitClick = async (ev) => {
     try {
-      setInputsErrorsState(joiResponse);
-      if (joiResponse) {
-        console.log("return from joiResponse");
-        return;
-      }
-
       await axios.put("/users/userInfo/", {
         firstName: inputstate.firstName,
         middleName: inputstate.middleName,
@@ -131,17 +120,13 @@ const UserProfilePage = () => {
 
   const updateState = (key, value) => {
     inputstate[key] = value;
-    joiResponse = validateRegisterSchema(inputstate);
-    if (joiResponse !== null && joiResponse.hasOwnProperty("password")) {
-      delete joiResponse.password;
-      if (Object.keys(joiResponse).length === 0) {
-        joiResponse = null;
-      }
-    }
-    if (joiResponse) {
-      setbtnDisable(true);
-    }
   };
+
+  const onBlurHandel = (submitLock) => {
+    console.log("onBlurHandel");
+    setbtnDisable(submitLock);
+  };
+
   const updatecheckBoxState = (value) => {
     setFlagIfCheckBoxUpdated(!flagIfCheckBoxUpdated);
     setChecked(value);
@@ -167,23 +152,15 @@ const UserProfilePage = () => {
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             {Object.entries(inputstate).map(([key, value]) => (
-              <Grid item xs={12} sm={6} key={Math.random() + Date.now()}>
+              <Grid item xs={12} sm={6} key={key + Date.now()}>
                 <GridItemComponent
                   inputKey={key}
                   inputValue={inputstate[key] + ""}
                   onChange={updateState}
+                  onBlur={onBlurHandel}
+                  prevState={inputstate}
+                  schema={"user"}
                 />
-                {inputsErrorsState && inputsErrorsState[key] && (
-                  <Alert severity="warning">
-                    {inputsErrorsState[key].map((item) => (
-                      <div key={`${key}-errors` + item}>
-                        {item.includes("pattern:")
-                          ? item.split("pattern:")[0] + "pattern"
-                          : item}
-                      </div>
-                    ))}
-                  </Alert>
-                )}
               </Grid>
             ))}
 

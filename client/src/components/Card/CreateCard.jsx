@@ -1,11 +1,10 @@
-import { Alert, Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 import ROUTES from "../../routes/ROUTES";
-import validateCardSchema from "../../validation/CreateCardValidation";
 import SubmitComponent from "../Form/SubmitComponent";
 import CRComponent from "../Form/CRComponent";
 import GridItemComponent from "../Form/GridItemComponent";
@@ -28,19 +27,11 @@ const CreateCard = () => {
     alt: "",
   });
 
-  const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
   const [btnDisable, setbtnDisable] = useState(true);
-  let joiResponse;
 
   const handleBtnSubmitClick = async (ev) => {
     try {
-      setInputsErrorsState(joiResponse);
-      if (joiResponse) {
-        console.log("return from joiResponse");
-        return;
-      }
-
       await axios.post("/cards/", {
         title: inputState.title,
         subTitle: inputState.subTitle,
@@ -76,10 +67,11 @@ const CreateCard = () => {
 
   const updateState = (key, value) => {
     inputState[key] = value;
-    joiResponse = validateCardSchema(inputState);
-    if (!joiResponse) {
-      setbtnDisable(false);
-    }
+  };
+
+  const onBlurHandel = (submitLock) => {
+    console.log("onBlurHandel");
+    setbtnDisable(submitLock);
   };
 
   return (
@@ -99,28 +91,15 @@ const CreateCard = () => {
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             {Object.entries(inputState).map(([key, value]) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                key={Math.floor(Math.random() * 100) + Date.now()}
-              >
+              <Grid item xs={12} sm={6} key={key + Date.now()}>
                 <GridItemComponent
                   inputKey={key}
                   inputValue={value}
                   onChange={updateState}
+                  onBlur={onBlurHandel}
+                  prevState={inputState}
+                  schema={"card"}
                 />
-                {inputsErrorsState && inputsErrorsState[key] && (
-                  <Alert severity="warning">
-                    {inputsErrorsState[key].map((item) => (
-                      <div key={`${key}-errors` + item}>
-                        {item.includes("pattern:")
-                          ? item.split("pattern:")[0] + "pattern"
-                          : item}
-                      </div>
-                    ))}
-                  </Alert>
-                )}
               </Grid>
             ))}
             <CRComponent
