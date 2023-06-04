@@ -73,18 +73,15 @@ const SignUpPage = () => {
   };
 
   const updateState = (key, value) => {
-    console.log("updateState = ", inputstate);
     inputstate[key] = value;
   };
 
   const onBlurHandel = (submitLock) => {
-    console.log("onBlurHandel");
     setbtnDisable(submitLock);
   };
 
   const updatecheckBoxState = (value) => {
     checkBoxState = value;
-    console.log("checkBoxState = ", checkBoxState);
   };
 
   return (

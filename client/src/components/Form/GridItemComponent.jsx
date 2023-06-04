@@ -12,7 +12,6 @@ const GridItemComponent = ({
   prevState,
   schema,
 }) => {
-  console.log("GridItemComponent");
   const [inputState, setInputState] = useState({
     firstName: "",
     middleName: "",
@@ -62,9 +61,7 @@ const GridItemComponent = ({
       }
     }
     setInputsErrorsState(joiResponse);
-    console.log("joiResponse = ", joiResponse);
     if (!joiResponse) {
-      console.log("in if");
       if (schema === "user") {
         onBlur(false);
       } else {

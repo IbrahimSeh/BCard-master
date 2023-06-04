@@ -123,7 +123,6 @@ const UserProfilePage = () => {
   };
 
   const onBlurHandel = (submitLock) => {
-    console.log("onBlurHandel");
     setbtnDisable(submitLock);
   };
 
